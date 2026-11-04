@@ -1,294 +1,419 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Risolutore Quiz da Dispense</title>
-    <style>
-        :root {
-            --bg-color: #f4f6f9;
-            --card-bg: #ffffff;
-            --primary-color: #2563eb;
-            --primary-hover: #1d4ed8;
-            --text-color: #1f2937;
-            --border-color: #e5e7eb;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Risolutore Quiz Rapido</title>
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
+<style>
+:root {
+    --bg: #f4f6f9;
+    --primary: #2563eb;
+    --text: #1f2937;
+    --border: #e5e7eb;
+}
 
-        h1 {
-            text-align: center;
-            color: #1e3a8a;
-            margin-bottom: 1.5rem;
-        }
+body {
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 15px;
+}
 
-        .container {
-            background-color: var(--card-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
+.container {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px #0001;
+}
 
-        .section {
-            margin-bottom: 1.5rem;
-        }
+h1 {
+    text-align: center;
+    color: #1e3a8a;
+}
 
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
 
-        input[type="text"], input[type="file"] {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            box-sizing: border-box;
-            background-color: #fafafa;
-        }
+.section {
+    margin-bottom: 20px;
+}
 
-        .file-info {
-            font-size: 0.875rem;
-            color: #6b7280;
-            margin-top: 0.25rem;
-        }
+input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
 
-        button {
-            width: 100%;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.85rem;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 6px;
+    background: var(--primary);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-        button:hover {
-            background-color: var(--primary-hover);
-        }
+button:disabled {
+    background: #9ca3af;
+}
 
-        button:disabled {
-            background-color: #9ca3af;
-            cursor: not-allowed;
-        }
+#status {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+}
 
-        #status {
-            margin-top: 1rem;
-            font-weight: 500;
-            text-align: center;
-        }
+#result-container {
+    display: none;
+    margin-top: 20px;
+}
 
-        #result-container {
-            margin-top: 1.5rem;
-            display: none;
-        }
+#result-box {
+    padding: 15px;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 18px;
+    overflow-wrap: anywhere;
+}
 
-        #result-box {
-            background-color: #f8fafc;
-            border: 1px solid var(--border-color);
-            padding: 1rem;
-            border-radius: 6px;
-            font-family: monospace;
-            font-size: 1.1rem;
-            word-break: break-all;
-            white-space: pre-wrap;
-        }
+.copy-btn {
+    margin-top: 10px;
+    background: #10b981;
+}
 
-        .copy-btn {
-            background-color: #10b981;
-            margin-top: 0.5rem;
-        }
-
-        .copy-btn:hover {
-            background-color: #059669;
-        }
-    </style>
+</style>
 </head>
+
 <body>
 
-    <div class="container">
-        <h1>Risolutore Quiz con Dispense</h1>
+<div class="container">
 
-        <!-- API KEY -->
-        <div class="section">
-            <label for="apiKey">Chiave API Gemini:</label>
-            <input type="text" id="apiKey" placeholder="Incolla qui la tua API Key di Google Gemini">
-        </div>
+<h1>Risolutore Quiz Rapido</h1>
 
-        <!-- DISPENSE -->
-        <div class="section">
-            <label for="dispenseFiles">1. Carica le Dispense / Materiale di Studio (PDF, Immagini):</label>
-            <input type="file" id="dispenseFiles" multiple accept="application/pdf,image/*">
-            <div class="file-info" id="dispenseCount">Nessun file selezionato</div>
-        </div>
+<div class="section">
+<label for="apiKey">API Key Gemini</label>
+<input type="password" id="apiKey"
+placeholder="Inserisci la tua API Key">
+</div>
 
-        <!-- IMMAGINI QUIZ -->
-        <div class="section">
-            <label for="quizFiles">2. Carica le Immagini dei Quiz (fino a 30):</label>
-            <input type="file" id="quizFiles" multiple accept="image/*">
-            <div class="file-info" id="quizCount">Nessuna immagine selezionata</div>
-        </div>
+<div class="section">
+<label for="quizFiles">
+Carica le immagini dei quiz (massimo 30)
+</label>
 
-        <!-- PULSANTE DI INVIO -->
-        <button id="processBtn" onclick="processQuiz()">Elabora e Genera Risposte</button>
+<input type="file" id="quizFiles"
+multiple accept="image/*">
 
-        <div id="status"></div>
+<p id="fileCount">Nessuna immagine selezionata</p>
+</div>
 
-        <!-- RISULTATO -->
-        <div id="result-container">
-            <label>Risultato:</label>
-            <div id="result-box"></div>
-            <button class="copy-btn" onclick="copyResults()">Copia Risultato</button>
-        </div>
-    </div>
+<button id="processBtn" onclick="processQuiz()">
+RISOLVI QUIZ
+</button>
 
-    <script>
-        // Aggiorna conteggio dei file selezionati
-        document.getElementById('dispenseFiles').addEventListener('change', (e) => {
-            document.getElementById('dispenseCount').textContent = `${e.target.files.length} file di studio caricati`;
-        });
+<div id="status"></div>
 
-        document.getElementById('quizFiles').addEventListener('change', (e) => {
-            const count = e.target.files.length;
-            document.getElementById('quizCount').textContent = `${count} immagini di quiz caricate`;
-            if (count > 30) {
-                alert("Hai selezionato più di 30 immagini. Verranno considerate solo le prime 30.");
-            }
-        });
+<div id="result-container">
 
-        // Funzione per convertire i file in formato Base64
-        function fileToGenerativePart(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    const base64Data = reader.result.split(',')[1];
-                    resolve({
-                        inlineData: {
-                            data: base64Data,
-                            mimeType: file.type
-                        }
-                    });
-                };
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
+<label>Risposte:</label>
+
+<div id="result-box"></div>
+
+<button class="copy-btn" onclick="copyResults()">
+COPIA RISPOSTE
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+const MODEL = "gemini-3.5-flash-lite";
+
+const apiKeyInput = document.getElementById("apiKey");
+const quizInput = document.getElementById("quizFiles");
+const processBtn = document.getElementById("processBtn");
+const statusDiv = document.getElementById("status");
+const resultBox = document.getElementById("result-box");
+const resultContainer = document.getElementById("result-container");
+
+// Conteggio immagini
+quizInput.addEventListener("change", function() {
+
+    const count = quizInput.files.length;
+
+    document.getElementById("fileCount").textContent =
+        count + " immagini selezionate";
+
+});
+
+// Conversione immagini
+function fileToPart(file) {
+
+    return new Promise((resolve, reject) => {
+
+        const reader = new FileReader();
+
+        reader.onload = function() {
+
+            resolve({
+                inlineData: {
+                    mimeType: file.type,
+                    data: reader.result.split(",")[1]
+                }
             });
+
+        };
+
+        reader.onerror = function() {
+            reject(new Error("Errore lettura immagine"));
+        };
+
+        reader.readAsDataURL(file);
+
+    });
+
+}
+
+// Attesa in caso di sovraccarico
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Elaborazione quiz
+async function processQuiz() {
+
+    const apiKey = apiKeyInput.value.trim();
+    const files = Array.from(quizInput.files);
+
+    if (!apiKey) {
+        alert("Inserisci la API Key Gemini.");
+        return;
+    }
+
+    if (files.length === 0) {
+        alert("Carica le immagini dei quiz.");
+        return;
+    }
+
+    if (files.length > 30) {
+        alert("Puoi caricare massimo 30 immagini.");
+        return;
+    }
+
+    processBtn.disabled = true;
+    resultContainer.style.display = "none";
+
+    statusDiv.style.color = "#2563eb";
+    statusDiv.textContent = "Preparazione immagini...";
+
+    try {
+
+        const imageParts = [];
+
+        for (const file of files) {
+
+            if (!file.type.startsWith("image/")) {
+                throw new Error("File non valido: " + file.name);
+            }
+
+            imageParts.push(await fileToPart(file));
+
         }
 
-        async function processQuiz() {
-            const apiKey = document.getElementById('apiKey').value.trim();
-            const dispenseInput = document.getElementById('dispenseFiles').files;
-            const quizInput = document.getElementById('quizFiles').files;
-            const statusDiv = document.getElementById('status');
-            const resultContainer = document.getElementById('result-container');
-            const resultBox = document.getElementById('result-box');
-            const btn = document.getElementById('processBtn');
+        const prompt = `
+Sei un assistente specializzato nella risoluzione
+di quiz universitari a risposta multipla.
 
-            if (!apiKey) {
-                alert("Inserisci una API Key valida!");
-                return;
-            }
-            if (dispenseInput.length === 0) {
-                alert("Carica almeno un file per le dispense!");
-                return;
-            }
-            if (quizInput.length === 0) {
-                alert("Carica almeno un'immagine per i quiz!");
-                return;
-            }
+Analizza tutte le immagini fornite.
 
-            btn.disabled = true;
-            statusDiv.style.color = "#2563eb";
-            statusDiv.textContent = "Conversione file e invio in corso... Attendi...";
-            resultContainer.style.display = "none";
+ISTRUZIONI:
 
-            try {
-                // Prepara i file delle dispense
-                const dispenseParts = [];
-                for (let file of dispenseInput) {
-                    dispenseParts.push(await fileToGenerativePart(file));
-                }
+- Leggi ogni domanda.
+- Leggi tutte le alternative.
+- Individua la risposta corretta.
+- Usa le tue conoscenze per risolvere le domande.
+- Non saltare nessuna domanda.
+- Rispetta l'ordine delle immagini.
+- Ogni immagine corrisponde a una domanda.
+- Se una domanda è illeggibile, non inventare.
 
-                // Prepara le immagini dei quiz (max 30)
-                const quizFilesToProcess = Array.from(quizInput).slice(0, 30);
-                const quizParts = [];
-                for (let file of quizFilesToProcess) {
-                    quizParts.push(await fileToGenerativePart(file));
-                }
+FORMATO OBBLIGATORIO:
 
-                // Prompt rigoroso per forzare la ricerca solo nelle dispense e il formato di output
-                const promptText = `
-Sei un assistente per la risoluzione dei quiz.
-Ti sono stati forniti due set di file:
-1. I primi file allegati sono le DISPENSE / MATERIALE DI STUDIO.
-2. I successivi allegati sono immagini contenenti DOMANDE DI QUIZ numerate sequentially (o una per immagine).
+1:1;2:2;3:3;4:4
 
-ISTRUZIONI RIGIDE:
-- Rispondi alle domande dei quiz Basandoti ESCLUSIVAMENTE ed UNICAMENTE sulle informazioni presenti nelle DISPENSE fornite.
-- Se una risposta non è direttamente o implicitamente supportata dalle dispense, indica la risposta più probabile secondo il contesto delle dispense stesse.
-- L'output DEVE ESSERE ESATTAMENTE E SOLTANTO nel formato specificato, senza testi introduttivi, spiegazioni, spazi a capo inutili o formattazione markdown.
-- Formato richiesto: 1:A;2:C;3:B;4:D...
-- L'ordine numerico deve corrispondere all'ordine sequenziale dei quiz presentati nelle immagini.
+Restituisci esclusivamente le risposte.
+Nessuna spiegazione.
+Nessun testo aggiuntivo.
+Nessun titolo.
+
+Numero domande: ${files.length}
 `;
 
-                const contents = [
-                    {
-                        role: "user",
-                        parts: [
-                            { text: promptText },
-                            ...dispenseParts,
-                            ...quizParts
-                        ]
-                    }
-                ];
+        const contents = [{
+            role: "user",
+            parts: [
+                { text: prompt },
+                ...imageParts
+            ]
+        }];
 
-                // Chiamata all'API Gemini aggiornata al modello corretto
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`, {
-                    method: 'POST',
+        let data;
+        let response;
+
+        // Massimo 3 tentativi in caso di sovraccarico
+        for (let attempt = 0; attempt < 3; attempt++) {
+
+            statusDiv.textContent =
+                attempt === 0
+                ? "Gemini sta risolvendo i quiz..."
+                : "Modello sovraccarico. Nuovo tentativo...";
+
+            response = await fetch(
+                `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`,
+                {
+                    method: "POST",
+
                     headers: {
-                        'Content-Type': 'application/json'
+                        "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ contents })
-                });
 
-                const data = await response.json();
+                    body: JSON.stringify({
+                        contents: contents,
 
-                if (data.error) {
-                    throw new Error(data.error.message || "Errore durante la chiamata API.");
+                        generationConfig: {
+                            temperature: 0,
+                            maxOutputTokens: 1024
+                        }
+                    })
                 }
+            );
 
-                const outputText = data.candidates[0].content.parts[0].text.trim();
+            data = await response.json();
 
-                resultBox.textContent = outputText;
-                resultContainer.style.display = "block";
-                statusDiv.style.color = "#10b981";
-                statusDiv.textContent = "Elaborazione completata!";
-
-            } catch (err) {
-                console.error(err);
-                statusDiv.style.color = "#dc2626";
-                statusDiv.textContent = "Si è verificato un errore: " + err.message;
-            } finally {
-                btn.disabled = false;
+            if (response.ok && !data.error) {
+                break;
             }
+
+            const errorMessage =
+                data.error?.message || "";
+
+            const isOverloaded =
+                /high demand|overload|503|UNAVAILABLE/i
+                .test(errorMessage);
+
+            if (!isOverloaded || attempt === 2) {
+                throw new Error(errorMessage ||
+                    "Errore API " + response.status);
+            }
+
+            await sleep(1000 * Math.pow(2, attempt));
+
         }
 
-        function copyResults() {
-            const text = document.getElementById('result-box').textContent;
-            navigator.clipboard.writeText(text).then(() => {
-                alert("Risultati copiati negli appunti!");
-            });
+        const candidate = data.candidates?.[0];
+
+        if (!candidate?.content?.parts) {
+            throw new Error("Risposta Gemini vuota.");
         }
-    </script>
+
+        let output = candidate.content.parts
+            .map(part => part.text || "")
+            .join("")
+            .trim();
+
+        output = output
+            .replace(/```/g, "")
+            .replace(/\s/g, "");
+
+        const pattern =
+            /^\d+:[1-4](;\d+:[1-4])*$/;
+
+        if (!pattern.test(output)) {
+            throw new Error(
+                "Formato risposta non valido: " + output
+            );
+        }
+
+        const answers = output.split(";");
+
+        if (answers.length !== files.length) {
+            throw new Error(
+                "Risposte ricevute: " + answers.length +
+                ". Immagini caricate: " + files.length
+            );
+        }
+
+        for (let i = 0; i < answers.length; i++) {
+
+            const number =
+                parseInt(answers[i].split(":")[0]);
+
+            if (number !== i + 1) {
+                throw new Error(
+                    "Numerazione delle risposte errata."
+                );
+            }
+
+        }
+
+        resultBox.textContent = output;
+        resultContainer.style.display = "block";
+
+        statusDiv.style.color = "#10b981";
+        statusDiv.textContent =
+            "Completato! " + answers.length +
+            " risposte generate.";
+
+    } catch (error) {
+
+        statusDiv.style.color = "#dc2626";
+        statusDiv.textContent =
+            "Errore: " + error.message;
+
+    } finally {
+
+        processBtn.disabled = false;
+
+    }
+
+}
+
+// Copia
+async function copyResults() {
+
+    try {
+
+        await navigator.clipboard.writeText(
+            resultBox.textContent
+        );
+
+        alert("Risposte copiate!");
+
+    } catch (error) {
+
+        alert("Copia non riuscita. Seleziona il testo.");
+
+    }
+
+}
+
+</script>
+
 </body>
 </html>
