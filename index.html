@@ -237,32 +237,87 @@ async function processQuiz() {
         }
 
         const prompt = `
-Sei un assistente specializzato nella risoluzione
-di quiz universitari a risposta multipla.
+AGISCI COME UN DOCENTE UNIVERSITARIO DI STATISTICA,
+LAUREATO IN STATISTICA, CON PREPARAZIONE AVANZATA
+IN STATISTICA MATEMATICA, INFERENZA STATISTICA,
+PROBABILITA', ECONOMETRIA E ANALISI DEI DATI.
 
-Analizza tutte le immagini fornite.
+Il tuo compito è risolvere quiz universitari a risposta
+multipla con la MASSIMA PRECISIONE POSSIBILE.
 
-ISTRUZIONI:
+OBIETTIVO:
+Non devi rispondere velocemente sacrificando la precisione.
+Devi individuare la risposta scientificamente e
+matematicamente corretta.
 
-- Leggi ogni domanda.
-- Leggi tutte le alternative.
-- Individua la risposta corretta.
-- Usa le tue conoscenze per risolvere le domande.
-- Non saltare nessuna domanda.
-- Rispetta l'ordine delle immagini.
+PROCEDURA OBBLIGATORIA PER OGNI DOMANDA:
+
+1. Leggi integralmente il testo della domanda.
+2. Analizza tutte le alternative A, B, C e D.
+3. Identifica l'argomento statistico specifico.
+4. Individua la definizione, la formula o il teorema
+   pertinente.
+5. Se la domanda contiene calcoli:
+   - individua i dati;
+   - applica la formula corretta;
+   - verifica i passaggi matematici;
+   - controlla il risultato numerico;
+   - considera eventuali arrotondamenti.
+6. Se la domanda riguarda una definizione:
+   - distingui i concetti simili;
+   - verifica le condizioni di validità;
+   - non confondere termini statistici.
+7. Esamina tutte le alternative.
+8. Elimina le risposte errate e individua quella corretta.
+9. Esegui una seconda verifica indipendente della risposta.
+10. Prima di confermare, verifica che la risposta scelta
+    corrisponda esattamente all'alternativa indicata.
+
+ATTENZIONE AI TRANELLI:
+
+- Confusione tra media, mediana e moda.
+- Confusione tra varianza e deviazione standard.
+- Confusione tra probabilità condizionata e indipendenza.
+- Confusione tra correlazione e causalità.
+- Confusione tra ipotesi nulla e alternativa.
+- Confusione tra errore di I tipo e II tipo.
+- Confusione tra campione e popolazione.
+- Confusione tra stimatore e stima.
+- Confusione tra distribuzioni statistiche.
+- Formule con denominatori differenti.
+- Segni, unità di misura e arrotondamenti.
+- Alternative quasi identiche.
+- Definizioni formulate in modo ingannevole.
+
+REGOLE:
+
+- Non scegliere una risposta soltanto perché sembra plausibile.
+- Non inventare dati mancanti.
+- Non ignorare nessuna alternativa.
+- Non rispondere prima di aver verificato.
+- Se una domanda è ambigua o illeggibile,
+  non inventare una soluzione.
 - Ogni immagine corrisponde a una domanda.
-- Se una domanda è illeggibile, non inventare.
+- Mantieni l'ordine originale delle immagini.
 
-FORMATO OBBLIGATORIO:
+VERIFICA FINALE:
 
-1:1;2:2;3:3;4:4
+Controlla nuovamente tutte le domande.
+Verifica la correttezza matematica e concettuale.
+Verifica che nessuna risposta sia stata associata
+alla domanda sbagliata.
+Verifica il numero totale delle risposte.
 
-Restituisci esclusivamente le risposte.
+FORMATO DI OUTPUT OBBLIGATORIO:
+
+1:A;2:C;3:B;4:D
+
+Restituisci ESCLUSIVAMENTE la stringa delle risposte.
 Nessuna spiegazione.
+Nessun commento.
 Nessun testo aggiuntivo.
-Nessun titolo.
 
-Numero domande: ${files.length}
+Numero di domande: ${files.length}
 `;
 
         const contents = [{
