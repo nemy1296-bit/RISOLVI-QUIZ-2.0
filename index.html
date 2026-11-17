@@ -1,474 +1,395 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Risolutore Quiz Rapido</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>RISOLVI QUIZ PROFESSIONAL</title>
 <style>
 :root {
-    --bg: #f4f6f9;
-    --primary: #2563eb;
-    --text: #1f2937;
-    --border: #e5e7eb;
+  --bg:#0b1220;
+  --panel:#141f31;
+  --panel2:#1b2940;
+  --text:#f3f6fc;
+  --muted:#9cabc1;
+  --accent:#55d6be;
+  --blue:#668cff;
+  --border:#293950;
+  --danger:#ff7474;
 }
-
-body {
-    font-family: Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    max-width: 700px;
-    margin: 30px auto;
-    padding: 15px;
+*{box-sizing:border-box}
+body{
+ margin:0;background:var(--bg);color:var(--text);
+ font-family:Inter,system-ui,-apple-system,sans-serif;
+ min-height:100vh;
 }
-
-.container {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px #0001;
+header{
+ padding:22px 18px;border-bottom:1px solid var(--border);
+ background:#101a2a;
 }
-
-h1 {
-    text-align: center;
-    color: #1e3a8a;
+.container{max-width:900px;margin:auto;padding:20px 16px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{
+ width:43px;height:43px;border-radius:13px;
+ background:linear-gradient(135deg,#55d6be,#668cff);
+ display:grid;place-items:center;color:#081322;
+ font-weight:900;font-size:21px;
 }
-
-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 10px;
+h1{font-size:19px;margin:0;letter-spacing:.5px}
+.subtitle{font-size:12px;color:var(--muted);margin-top:4px}
+.hero{padding:25px 0 15px}
+.hero h2{font-size:25px;margin:0 0 8px}
+.hero p{color:var(--muted);font-size:14px;line-height:1.6}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.badge{
+ padding:7px 11px;border:1px solid var(--border);
+ border-radius:30px;font-size:11px;color:var(--accent);
+ background:#142b32;
 }
-
-.section {
-    margin-bottom: 20px;
+.panel{
+ background:var(--panel);border:1px solid var(--border);
+ border-radius:17px;padding:19px;margin:17px 0;
 }
-
-input {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 12px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
+.panel h3{font-size:15px;margin:0 0 14px}
+.dropzone{
+ border:1.5px dashed #526985;border-radius:14px;
+ padding:28px 15px;text-align:center;
+ background:#111c2d;cursor:pointer;
 }
-
-button {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 6px;
-    background: var(--primary);
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
+.dropzone strong{display:block;margin:10px 0 5px}
+.dropzone p{font-size:12px;color:var(--muted);margin:0}
+.dropzone input{display:none}
+.upload-icon{font-size:30px;color:var(--accent)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.counter{font-size:12px;color:var(--muted)}
+.preview{
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:9px;margin-top:15px;
 }
-
-button:disabled {
-    background: #9ca3af;
+.thumb{position:relative;min-width:0}
+.thumb img{
+ width:100%;height:105px;object-fit:cover;
+ border-radius:9px;border:1px solid var(--border);
 }
-
-#status {
-    text-align: center;
-    margin-top: 15px;
-    font-weight: bold;
-    overflow-wrap: anywhere;
+.remove{
+ position:absolute;right:5px;top:5px;
+ background:#a82d3d;color:white;border:0;
+ border-radius:50%;width:25px;height:25px;
+ cursor:pointer;font-size:16px;
 }
-
-#result-container {
-    display: none;
-    margin-top: 20px;
+button{
+ border:0;border-radius:11px;padding:13px 16px;
+ font-weight:700;cursor:pointer;font-size:13px;
 }
-
-#result-box {
-    padding: 15px;
-    background: #f8fafc;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-family: monospace;
-    font-size: 18px;
-    overflow-wrap: anywhere;
+.primary{
+ background:var(--accent);color:#09201e;width:100%;
+ margin-top:17px;
 }
-
-.copy-btn {
-    margin-top: 10px;
-    background: #10b981;
+.primary:disabled{opacity:.4;cursor:not-allowed}
+.secondary{
+ background:var(--panel2);color:var(--text);
+ border:1px solid var(--border);
 }
-
+select{
+ width:100%;padding:12px;border-radius:10px;
+ background:#101b2b;color:white;
+ border:1px solid var(--border);margin-top:8px;
+}
+label{font-size:12px;color:var(--muted)}
+.status{
+ display:none;padding:14px;border-radius:11px;
+ background:#172b3b;margin-top:15px;
+ color:var(--accent);font-size:13px;
+}
+.status.error{background:#351d27;color:#ffaaaa}
+.progress{
+ height:5px;background:#293950;border-radius:9px;
+ margin-top:12px;overflow:hidden;
+}
+.progress span{
+ display:block;width:0;height:100%;
+ background:var(--accent);transition:width .3s;
+}
+.result{margin-top:15px}
+.answer{
+ border:1px solid var(--border);
+ background:#111c2d;border-radius:13px;
+ padding:15px;margin:12px 0;
+}
+.answer-top{
+ display:flex;justify-content:space-between;
+ gap:8px;align-items:center;
+}
+.question-number{font-size:12px;color:var(--accent);font-weight:800}
+.choice{
+ font-size:19px;font-weight:800;
+ background:#173b37;color:var(--accent);
+ padding:7px 13px;border-radius:9px;
+}
+.question-text{font-size:14px;line-height:1.6;margin:13px 0}
+.confidence{font-size:11px;color:var(--muted)}
+details{
+ border-top:1px solid var(--border);
+ padding-top:11px;margin-top:12px;
+ font-size:13px;line-height:1.7;
+}
+summary{cursor:pointer;color:var(--blue);font-weight:700}
+.explanation{color:#d0d9e8;white-space:pre-wrap}
+.copy{
+ background:var(--panel2);color:var(--accent);
+ border:1px solid var(--border);width:100%;margin-top:12px;
+}
+footer{text-align:center;padding:30px;color:#718198;font-size:11px}
+@media(min-width:600px){
+ .preview{grid-template-columns:repeat(5,1fr)}
+ .thumb img{height:125px}
+}
 </style>
 </head>
-
 <body>
 
-<div class="container">
+<header>
+ <div class="container" style="padding:0 16px">
+  <div class="brand">
+   <div class="logo">Σ</div>
+   <div>
+    <h1>RISOLVI QUIZ PROFESSIONAL</h1>
+    <div class="subtitle">STATISTICS EXPERT · VERSIONE 2.0</div>
+   </div>
+  </div>
+ </div>
+</header>
 
-<h1>Risolutore Quiz Rapido</h1>
+<main class="container">
+ <section class="hero">
+  <h2>Analisi statistica intelligente.</h2>
+  <p>
+   Carica le immagini del tuo quiz. Il sistema riconosce
+   le domande, risolve i problemi matematici e verifica
+   i risultati prima di presentarli.
+  </p>
+  <div class="badges">
+   <span class="badge">30 immagini</span>
+   <span class="badge">Doppia verifica</span>
+   <span class="badge">Motore statistico</span>
+  </div>
+ </section>
 
-<div class="section">
-<label for="apiKey">API Key Gemini</label>
-<input type="password" id="apiKey"
-placeholder="Inserisci la tua API Key">
-</div>
+ <section class="panel">
+  <div class="row">
+   <h3>01 · Caricamento domande</h3>
+   <span class="counter" id="counter">0 / 30</span>
+  </div>
 
-<div class="section">
-<label for="quizFiles">
-Carica le immagini dei quiz (massimo 30)
-</label>
+  <label class="dropzone" for="files">
+   <div class="upload-icon">＋</div>
+   <strong>Carica le immagini del quiz</strong>
+   <p>JPG, PNG o WEBP · Massimo 30 immagini</p>
+   <input id="files" type="file" accept="image/*" multiple>
+  </label>
 
-<input type="file" id="quizFiles"
-multiple accept="image/*">
+  <div class="preview" id="preview"></div>
+ </section>
 
-<p id="fileCount">Nessuna immagine selezionata</p>
-</div>
+ <section class="panel">
+  <h3>02 · Impostazioni di analisi</h3>
+  <label for="mode">Modalità di elaborazione</label>
+  <select id="mode">
+   <option value="both">Risposte + spiegazioni consultabili</option>
+   <option value="exam">Solo risposte finali</option>
+  </select>
+  <button class="primary" id="solve" disabled>
+   AVVIA ANALISI STATISTICA
+  </button>
+  <div class="status" id="status">
+   <div id="statusText">Preparazione...</div>
+   <div class="progress"><span id="progress"></span></div>
+  </div>
+ </section>
 
-<button id="processBtn" onclick="processQuiz()">
-RISOLVI QUIZ
-</button>
+ <section class="panel" id="resultsPanel" hidden>
+  <div class="row">
+   <h3>03 · Risultati dell'analisi</h3>
+   <span class="badge" id="resultCount">0 domande</span>
+  </div>
+  <div id="results" class="result"></div>
+  <button class="copy" id="copy">COPIA TUTTE LE RISPOSTE</button>
+ </section>
+</main>
 
-<div id="status"></div>
-
-<div id="result-container">
-
-<label>Risposte:</label>
-
-<div id="result-box"></div>
-
-<button class="copy-btn" onclick="copyResults()">
-COPIA RISPOSTE
-</button>
-
-</div>
-
-</div>
+<footer>
+ RISOLVI QUIZ PROFESSIONAL · STATISTICS EXPERT<br>
+ Strumento di supporto allo studio e alla verifica statistica
+</footer>
 
 <script>
+const filesInput=document.getElementById("files");
+const preview=document.getElementById("preview");
+const counter=document.getElementById("counter");
+const solve=document.getElementById("solve");
+const statusBox=document.getElementById("status");
+const statusText=document.getElementById("statusText");
+const progress=document.getElementById("progress");
+const results=document.getElementById("results");
+const resultsPanel=document.getElementById("resultsPanel");
 
-const MODEL = "gemini-3.5-flash-lite";
+let selectedFiles=[];
+let finalAnswers=[];
 
-const apiKeyInput = document.getElementById("apiKey");
-const quizInput = document.getElementById("quizFiles");
-const processBtn = document.getElementById("processBtn");
-const statusDiv = document.getElementById("status");
-const resultBox = document.getElementById("result-box");
-const resultContainer = document.getElementById("result-container");
-
-// Conteggio immagini
-quizInput.addEventListener("change", function() {
-
-    const count = quizInput.files.length;
-
-    document.getElementById("fileCount").textContent =
-        count + " immagini selezionate";
-
+filesInput.addEventListener("change",()=>{
+ const incoming=Array.from(filesInput.files);
+ const remaining=30-selectedFiles.length;
+ const valid=incoming.filter(f=>f.type.startsWith("image/"));
+ selectedFiles=[...selectedFiles,...valid.slice(0,remaining)];
+ renderPreview();
+ filesInput.value="";
 });
 
-// Conversione immagini
-function fileToPart(file) {
-
-    return new Promise((resolve, reject) => {
-
-        const reader = new FileReader();
-
-        reader.onload = function() {
-
-            resolve({
-                inlineData: {
-                    mimeType: file.type,
-                    data: reader.result.split(",")[1]
-                }
-            });
-
-        };
-
-        reader.onerror = function() {
-            reject(new Error("Errore lettura immagine"));
-        };
-
-        reader.readAsDataURL(file);
-
-    });
-
+function renderPreview(){
+ preview.innerHTML="";
+ selectedFiles.forEach((file,index)=>{
+  const url=URL.createObjectURL(file);
+  const item=document.createElement("div");
+  item.className="thumb";
+  const img=document.createElement("img");
+  img.src=url;
+  img.alt="Immagine "+(index+1);
+  const remove=document.createElement("button");
+  remove.className="remove";
+  remove.textContent="×";
+  remove.setAttribute("aria-label","Rimuovi immagine");
+  remove.onclick=()=>{
+   URL.revokeObjectURL(url);
+   selectedFiles.splice(index,1);
+   renderPreview();
+  };
+  item.append(img,remove);
+  preview.appendChild(item);
+ });
+ counter.textContent=selectedFiles.length+" / 30";
+ solve.disabled=selectedFiles.length===0;
 }
 
-// Attesa in caso di sovraccarico
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+function setStatus(message,value,error=false){
+ statusBox.style.display="block";
+ statusBox.className=error?"status error":"status";
+ statusText.textContent=message;
+ progress.style.width=value+"%";
 }
 
-// Elaborazione quiz
-async function processQuiz() {
-
-    const apiKey = apiKeyInput.value.trim();
-    const files = Array.from(quizInput.files);
-
-    if (!apiKey) {
-        alert("Inserisci la API Key Gemini.");
-        return;
-    }
-
-    if (files.length === 0) {
-        alert("Carica le immagini dei quiz.");
-        return;
-    }
-
-    if (files.length > 30) {
-        alert("Puoi caricare massimo 30 immagini.");
-        return;
-    }
-
-    processBtn.disabled = true;
-    resultContainer.style.display = "none";
-
-    statusDiv.style.color = "#2563eb";
-    statusDiv.textContent = "Preparazione immagini...";
-
-    try {
-
-        const imageParts = [];
-
-        for (const file of files) {
-
-            if (!file.type.startsWith("image/")) {
-                throw new Error("File non valido: " + file.name);
-            }
-
-            imageParts.push(await fileToPart(file));
-
-        }
-
-        const prompt = `
-AGISCI COME UN DOCENTE UNIVERSITARIO DI STATISTICA,
-LAUREATO IN STATISTICA, CON PREPARAZIONE AVANZATA
-IN STATISTICA MATEMATICA, INFERENZA STATISTICA,
-PROBABILITA', ECONOMETRIA E ANALISI DEI DATI.
-
-Il tuo compito è risolvere quiz universitari a risposta
-multipla con la MASSIMA PRECISIONE POSSIBILE.
-
-OBIETTIVO:
-Non devi rispondere velocemente sacrificando la precisione.
-Devi individuare la risposta scientificamente e
-matematicamente corretta.
-
-PROCEDURA OBBLIGATORIA PER OGNI DOMANDA:
-
-1. Leggi integralmente il testo della domanda.
-2. Analizza tutte le alternative A, B, C e D.
-3. Identifica l'argomento statistico specifico.
-4. Individua la definizione, la formula o il teorema
-   pertinente.
-5. Se la domanda contiene calcoli:
-   - individua i dati;
-   - applica la formula corretta;
-   - verifica i passaggi matematici;
-   - controlla il risultato numerico;
-   - considera eventuali arrotondamenti.
-6. Se la domanda riguarda una definizione:
-   - distingui i concetti simili;
-   - verifica le condizioni di validità;
-   - non confondere termini statistici.
-7. Esamina tutte le alternative.
-8. Elimina le risposte errate e individua quella corretta.
-9. Esegui una seconda verifica indipendente della risposta.
-10. Prima di confermare, verifica che la risposta scelta
-    corrisponda esattamente all'alternativa indicata.
-
-ATTENZIONE AI TRANELLI:
-
-- Confusione tra media, mediana e moda.
-- Confusione tra varianza e deviazione standard.
-- Confusione tra probabilità condizionata e indipendenza.
-- Confusione tra correlazione e causalità.
-- Confusione tra ipotesi nulla e alternativa.
-- Confusione tra errore di I tipo e II tipo.
-- Confusione tra campione e popolazione.
-- Confusione tra stimatore e stima.
-- Confusione tra distribuzioni statistiche.
-- Formule con denominatori differenti.
-- Segni, unità di misura e arrotondamenti.
-- Alternative quasi identiche.
-- Definizioni formulate in modo ingannevole.
-
-REGOLE:
-
-- Non scegliere una risposta soltanto perché sembra plausibile.
-- Non inventare dati mancanti.
-- Non ignorare nessuna alternativa.
-- Non rispondere prima di aver verificato.
-- Se una domanda è ambigua o illeggibile,
-  non inventare una soluzione.
-- Ogni immagine corrisponde a una domanda.
-- Mantieni l'ordine originale delle immagini.
-
-VERIFICA FINALE:
-
-Controlla nuovamente tutte le domande.
-Verifica la correttezza matematica e concettuale.
-Verifica che nessuna risposta sia stata associata
-alla domanda sbagliata.
-Verifica il numero totale delle risposte.
-
-FORMATO DI OUTPUT OBBLIGATORIO:
-
-1:A;2:C;3:B;4:D
-
-Restituisci ESCLUSIVAMENTE la stringa delle risposte.
-Nessuna spiegazione.
-Nessun commento.
-Nessun testo aggiuntivo.
-
-Numero di domande: ${files.length}
-`;
-
-        const contents = [{
-            role: "user",
-            parts: [
-                { text: prompt },
-                ...imageParts
-            ]
-        }];
-
-        let data;
-        let response;
-
-        // Massimo 3 tentativi in caso di sovraccarico
-        for (let attempt = 0; attempt < 3; attempt++) {
-
-            statusDiv.textContent =
-                attempt === 0
-                ? "Gemini sta risolvendo i quiz..."
-                : "Modello sovraccarico. Nuovo tentativo...";
-
-            response = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`,
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        contents: contents,
-
-                        generationConfig: {
-                            temperature: 0,
-                            maxOutputTokens: 1024
-                        }
-                    })
-                }
-            );
-
-            data = await response.json();
-
-            if (response.ok && !data.error) {
-                break;
-            }
-
-            const errorMessage =
-                data.error?.message || "";
-
-            const isOverloaded =
-                /high demand|overload|503|UNAVAILABLE/i
-                .test(errorMessage);
-
-            if (!isOverloaded || attempt === 2) {
-                throw new Error(errorMessage ||
-                    "Errore API " + response.status);
-            }
-
-            await sleep(1000 * Math.pow(2, attempt));
-
-        }
-
-        const candidate = data.candidates?.[0];
-
-        if (!candidate?.content?.parts) {
-            throw new Error("Risposta Gemini vuota.");
-        }
-
-        let output = candidate.content.parts
-            .map(part => part.text || "")
-            .join("")
-            .trim();
-
-        output = output
-            .replace(/```/g, "")
-            .replace(/\s/g, "");
-
-        const pattern =
-            /^\d+:[1-4](;\d+:[1-4])*$/;
-
-        if (!pattern.test(output)) {
-            throw new Error(
-                "Formato risposta non valido: " + output
-            );
-        }
-
-        const answers = output.split(";");
-
-        if (answers.length !== files.length) {
-            throw new Error(
-                "Risposte ricevute: " + answers.length +
-                ". Immagini caricate: " + files.length
-            );
-        }
-
-        for (let i = 0; i < answers.length; i++) {
-
-            const number =
-                parseInt(answers[i].split(":")[0]);
-
-            if (number !== i + 1) {
-                throw new Error(
-                    "Numerazione delle risposte errata."
-                );
-            }
-
-        }
-
-        resultBox.textContent = output;
-        resultContainer.style.display = "block";
-
-        statusDiv.style.color = "#10b981";
-        statusDiv.textContent =
-            "Completato! " + answers.length +
-            " risposte generate.";
-
-    } catch (error) {
-
-        statusDiv.style.color = "#dc2626";
-        statusDiv.textContent =
-            "Errore: " + error.message;
-
-    } finally {
-
-        processBtn.disabled = false;
-
-    }
-
+function addText(parent,tag,text,className){
+ const el=document.createElement(tag);
+ el.textContent=text??"";
+ if(className)el.className=className;
+ parent.appendChild(el);
+ return el;
 }
 
-// Copia
-async function copyResults() {
+function renderResults(data){
+ results.innerHTML="";
+ finalAnswers=[];
+ const questions=data.questions||[];
+ questions.forEach((q,index)=>{
+  const card=document.createElement("article");
+  card.className="answer";
+  const top=document.createElement("div");
+  top.className="answer-top";
+  addText(top,"span","DOMANDA "+(q.number??index+1),"question-number");
+  addText(top,"span",q.answer??"Non determinata","choice");
+  card.appendChild(top);
 
-    try {
+  addText(card,"div",q.question||"Testo della domanda non disponibile","question-text");
 
-        await navigator.clipboard.writeText(
-            resultBox.textContent
-        );
+  if(q.confidence!==undefined){
+   addText(card,"div","Affidabilità: "+q.confidence,"confidence");
+  }
 
-        alert("Risposte copiate!");
+  if(q.verification){
+   addText(card,"div","Controllo: "+q.verification,"confidence");
+  }
 
-    } catch (error) {
+  if(q.explanation||q.calculation||q.verification_details){
+   const details=document.createElement("details");
+   addText(details,"summary","Visualizza procedimento e verifica");
+   const body=document.createElement("div");
+   body.className="explanation";
+   body.textContent=[
+    q.explanation?"Spiegazione:\n"+q.explanation:"",
+    q.calculation?"Calcolo:\n"+q.calculation:"",
+    q.verification_details?"Verifica indipendente:\n"+q.verification_details:""
+   ].filter(Boolean).join("\n\n");
+   details.appendChild(body);
+   card.appendChild(details);
+  }
 
-        alert("Copia non riuscita. Seleziona il testo.");
+  if(q.warning){
+   addText(card,"div","Attenzione: "+q.warning,"confidence");
+  }
 
-    }
-
+  results.appendChild(card);
+  finalAnswers.push((q.number??index+1)+". "+(q.answer??"Da verificare"));
+ });
+ document.getElementById("resultCount").textContent=questions.length+" domande";
+ resultsPanel.hidden=false;
 }
 
+solve.addEventListener("click",async()=>{
+ if(!selectedFiles.length)return;
+
+ solve.disabled=true;
+ resultsPanel.hidden=true;
+ setStatus("Preparazione delle immagini...",10);
+
+ try{
+  const formData=new FormData();
+  selectedFiles.forEach(file=>formData.append("images",file));
+  formData.append("mode",document.getElementById("mode").value);
+  formData.append("subject","Statistica universitaria");
+
+  setStatus("Invio al motore statistico...",30);
+
+  // Endpoint da configurare nel passaggio backend.
+  const response=await fetch("/api/solve",{
+   method:"POST",
+   body:formData
+  });
+
+  setStatus("Verifica dei risultati...",75);
+
+  if(!response.ok){
+   const error=await response.text();
+   throw new Error(error||"Errore del servizio di elaborazione.");
+  }
+
+  const data=await response.json();
+
+  if(!Array.isArray(data.questions)){
+   throw new Error("Formato dei risultati non valido.");
+  }
+
+  renderResults(data);
+  setStatus("Analisi completata.",100);
+
+ }catch(error){
+  setStatus(
+   "Elaborazione non disponibile: "+error.message,
+   0,true
+  );
+ }finally{
+  solve.disabled=selectedFiles.length===0;
+ }
+});
+
+document.getElementById("copy").addEventListener("click",async()=>{
+ if(!finalAnswers.length)return;
+ try{
+  await navigator.clipboard.writeText(finalAnswers.join("\n"));
+  document.getElementById("copy").textContent="RISPOSTE COPIATE ✓";
+ }catch{
+  setStatus("Impossibile copiare automaticamente.",0,true);
+ }
+});
 </script>
-
 </body>
 </html>
